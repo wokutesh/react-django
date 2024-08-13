@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from .models import (
-    User,Vendor,Category,Order,OrderItem,Cart,CartItem,
+    User,Vendor,Category,Product,Order,OrderItem,Cart,CartItem,
     Shipping,Payment,Coupon,Review,Wishlist,Notification,Blog,
     Contact,FAQ,Analytics,Configuration,Tax,Subscription,Refund
 
@@ -100,7 +100,7 @@ class NotificationSerializer(serializers.ModelSerializer):
         fields= '__all__'
 
 class BlogSerializer(serializers.ModelSerializer):
-    author=UserSerializer(rea_only=True)
+    author=UserSerializer(read_only=True)
 
     class Meta:
         model=Blog

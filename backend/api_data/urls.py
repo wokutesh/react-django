@@ -3,9 +3,9 @@ from rest_framework import routers
 from  .views import(
     UserViewSet,VendorViewSet,CategoryViewSet,ProductViewSet,
     OrderViewSet,OrderItemViewSet,CartViewSet,CartItemViewSet,
-    ShippingViewSet,PaymentSerializer,CouponViewSet,ReviewViewSet,
-    WishlistViewSet,BlogViewSet,ContactViewSet,
-    FAQSerializer,AnalyticsViewSet, ConfigurationViewSet,TaxViewSet,
+    ShippingViewSet,PaymentViewSet,CouponViewSet,ReviewViewSet,
+    WishlistViewSet,BlogViewSet,ContactViewSet,NotificationViewSet,
+    FAQViewSet,AnalyticsViewSet, ConfigurationViewSet,TaxViewSet,
     SubscriptionViewSet,RefundViewSet
 )
 
@@ -17,7 +17,7 @@ router.register(r'products',ProductViewSet)
 router.register(r'orders',OrderViewSet)
 router.register(r'order-items',OrderItemViewSet)
 router.register(r'carts',CartViewSet)
-router.register(r'cart-items',CartItemsViewSet)
+router.register(r'cart-items',CartItemViewSet)
 router.register(r'shippings',ShippingViewSet)
 router.register(r'payments',PaymentViewSet)
 router.register(r'blogs',BlogViewSet)
@@ -25,7 +25,7 @@ router.register(r'reviews',ReviewViewSet)
 router.register(r'coupons',CouponViewSet)
 router.register(r'taxes',TaxViewSet)
 router.register(r'wishlists',WishlistViewSet)
-router.register(r'refunds',RefundsViewSet)
+router.register(r'refunds',RefundViewSet)
 router.register(r'contacts',ContactViewSet)
 router.register(r'configurations',ConfigurationViewSet)
 router.register(r'faqs',FAQViewSet)
@@ -34,8 +34,8 @@ router.register(r'analytics',AnalyticsViewSet)
 router.register(r'subscriptions',SubscriptionViewSet)
 
 
-urlpattern=[
+urlpatterns=[
 
     path('api/',include(router.urls)),
-    
+
 ]
