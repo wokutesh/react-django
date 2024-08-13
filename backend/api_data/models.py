@@ -33,7 +33,7 @@ class Product(models.Model):
     name=models.CharField(max_length=100)
     slug=models.SlugField(max_length=100,unique=True)
     description=models.TextField()
-    price=models.DecimalField(max_digit=10,decimal_places=2)
+    price=models.DecimalField(max_digits=10,decimal_places=2)
     stock=models.PositiveIntegerField()
     image=models.ImageField(upload_to='products')
     created_at=models.DateTimeField(auto_now_add=True)
@@ -46,7 +46,7 @@ class Product(models.Model):
 class Order(models.Model):
     customer=models.ForeignKey(User,on_delete=models.CASCADE,related_name='orders')
     products=models.ManyToManyField(Product,through='OrderItem')
-    total_price=models.DecimalField(max_length=100,decimal_places=2)
+    total_price=models.DecimalField(max_digits=100,decimal_places=2)
     shipping_address=models.TextField()
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now=True)
@@ -73,18 +73,18 @@ class CartItem(models.Model):
 class Shipping(models.Model):
     name=models.CharField(max_length=100)
     description=models.TextField()
-    rate=models.DecimalField(max_digit=10,decimal_places=2)
+    rate=models.DecimalField(max_digits=10,decimal_places=2)
 
 class Payment(models.Models):
     order=models.ForeignKey(Order,on_delete=models.CASCADE,related_name='payments')
     method=models.CharField(max_length=100)
-    amount=models.DecimalField(max_digit=10,decimal_places=2)
+    amount=models.DecimalField(max_digits=10,decimal_places=2)
     transaction_id=models.CharField(max_length=100)
     created_at=models.DateTimeField(auto_now_add=True)
 
 class Coupon(models.Model):
     code=models.CharField(max_length=100,unique=True)
-    discount=models.DecimalField(max_digit=10,decimal_places=2)
+    discount=models.DecimalField(max_digits=10,decimal_places=2)
     valid_from=models.DateTimeField()
     valid_to=models.DateTimefield()
 
@@ -123,7 +123,7 @@ class FAQ(models.Model):
     answer=models.TextField()
 
 class Analytics(models.Model):
-    sales=models.DecimalField(max_digit=10,decimal_places=2)
+    sales=models.DecimalField(max_digits=10,decimal_places=2)
     traffic=models.PositiveIntegerField()
     popular_products=models.ManyToManyField(Product,related_name='analytics')
     created_at=models.DateTimeField(auto_now_add=True)
@@ -135,7 +135,7 @@ class Configuration(models.Model):
 
 class Tax(models.Model):
     name=models.CharField(max_length=100)
-    rate=models.DecimalField(max_digit=10,decimal_places=2)
+    rate=models.DecimalField(max_digits=10,decimal_places=2)
     country=models.CharField(max_length=100)
     state=models.CharField(max_length=100,null=Truee,blank=True)
 
@@ -146,7 +146,7 @@ class Subscription(models.Model):
 class Refund(models.Model):
     author=models.ForeignKey(Order,on_delete=models.CASCADE,related_name='refunds')
     reason=models.TextField()
-    amount=models.DecimalField(max_digit=10,decimal_places=2)
+    amount=models.DecimalField(max_digits=10,decimal_places=2)
     status=models.CharField(max_length=100)
     requested_at=models.DateTimeField(auto_now_add=True)
     processed_at=models.DateTimeField(null=True,blank=True)
