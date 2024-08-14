@@ -8,6 +8,8 @@ class User(models.Model):
     is_vendor=models.BooleanField(default=False)
     is_admin=models.BooleanField(default=False)
 
+    def __str__(self):
+        return self.name
 
 class Vendor(models.Model):
     user=models.OneToOneField(User, on_delete=models.CASCADE,related_name='vendor')
@@ -142,7 +144,9 @@ class Tax(models.Model):
 class Subscription(models.Model):
     email=models.EmailField(unique=True)
     subscribed_at=models.DateTimeField(auto_now_add=True)
- 
+    
+    def __str__(self):
+        return self.email
 class Refund(models.Model):
     author=models.ForeignKey(Order,on_delete=models.CASCADE,related_name='refunds')
     reason=models.TextField()
@@ -152,7 +156,8 @@ class Refund(models.Model):
     processed_at=models.DateTimeField(null=True,blank=True)
 
 
-
+    def __str__(self):
+        return self.order
 
 
 
