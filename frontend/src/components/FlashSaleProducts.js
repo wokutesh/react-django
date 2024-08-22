@@ -9,4 +9,4 @@ const FlashSaleProducts=({products})=>{
    )
 }
 
-export default flashSaleProducts;
+export default FlashSaleProducts;
