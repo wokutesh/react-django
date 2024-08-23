@@ -24,8 +24,8 @@ class CategorySerializer(serializers.ModelSerializer):
         fields= '__all__'
 
 class ProductSerializer(serializers.ModelSerializer):
-    category=CategorySerializer(read_only=True)
-    vendor=VendorSerializer(read_only=True)
+    category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all())
+    vendor = serializers.PrimaryKeyRelatedField(queryset=Vendor.objects.all())
     review=serializers.StringRelatedField(many=True,read_only=True)
 
     class Meta:
@@ -33,8 +33,9 @@ class ProductSerializer(serializers.ModelSerializer):
         fields= '__all__'
 
 class OrderSerializer(serializers.ModelSerializer):
-    customer=UserSerializer(read_only=True)
-    products=ProductSerializer(read_only=True)
+    customer = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+    products = serializers.PrimaryKeyRelatedField(queryset=Product.objects.all(), many=True)
+
     
     class Meta:
         model= Order
@@ -42,13 +43,14 @@ class OrderSerializer(serializers.ModelSerializer):
 
 class OrderItemSerializer(serializers.ModelSerializer):
 
-
+    order = serializers.PrimaryKeyRelatedField(queryset=Order.objects.all())
+    product = serializers.PrimaryKeyRelatedField(queryset=Product.objects.all())
     class Meta:
         model= OrderItem
         fields= '__all__'
 
 class CartSerializer(serializers.ModelSerializer):
-    items=ProductSerializer(many=True,read_only=True)
+    items= serializers.PrimaryKeyRelatedField(queryset=Product.objects.all(), many=True)
 
 
     class Meta:

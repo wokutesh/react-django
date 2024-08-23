@@ -30,8 +30,8 @@ class Category(models.Model):
         return self.name
 
 class Product(models.Model):
-    vendor=models.ForeignKey(Vendor, on_delete=models.CASCADE,related_name='products')
-    category=models.ForeignKey(Category,on_delete=models.CASCADE,related_name='products')
+    vendor=models.ForeignKey(Vendor, on_delete=models.CASCADE,related_name='vendor_products')
+    category=models.ForeignKey(Category,on_delete=models.CASCADE,related_name='category_products')
     name=models.CharField(max_length=100)
     slug=models.SlugField(max_length=100,unique=True)
     description=models.TextField()
@@ -53,13 +53,15 @@ class Order(models.Model):
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return f"Order {self.id}"
 
 class OrderItem(models.Model):
     order=models.ForeignKey(Order,on_delete=models.CASCADE,related_name='Items')
     product=models.ForeignKey(Product,on_delete=models.CASCADE)
     quantity=models.PositiveIntegerField(default=1)
 
-
+ 
 class Cart(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE,related_name='cart',null=True,blank=True)
     session_id=models.CharField(max_length=100,null=True,blank=True)
