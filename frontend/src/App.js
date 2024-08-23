@@ -1,4 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { BrowserRouter as Router } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -8,7 +9,7 @@ import HomePage from './components/HomePage';
 
 function App() {
   return (
-    <>
+    <Router>
       <Navbar expand="lg" className="bg-primary"> {/* Use a Bootstrap class for styling */}
         <Container>
           <Navbar.Brand href="#home">
@@ -35,10 +36,11 @@ function App() {
               aria-label="Search"
             />
           </Form>
+         
         </Container>
       </Navbar>
       <HomePage />
-    </>
+    </Router>
   );
 }
 
