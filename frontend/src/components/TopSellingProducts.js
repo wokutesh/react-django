@@ -1,10 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
+import '../styles.css';
 const TopSellingProducts = ({ products }) => {
   const topSellingProducts = products
     .sort((a, b) => b.sales - a.sales)
-    .slice(0, 10);
+    .slice(0, 5);
 
   return (
     <>
@@ -13,7 +13,9 @@ const TopSellingProducts = ({ products }) => {
         {topSellingProducts.map((product) => (
           <div key={product.id} className="col-md-4">
             <Link to={`/products/${product.slug}`}>
-              <img src={product.image} alt={product.name} />
+              <img src={product.image} 
+              alt={product.name} 
+              style={{ width: "150px", height: "150px", objectFit: "cover" }} />
               <h4>{product.name}</h4>
               <h4>${product.price}</h4>
             </Link>

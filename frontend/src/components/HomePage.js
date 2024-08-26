@@ -19,6 +19,7 @@ const HomePage = () => {
     dispatch(fetchProducts());
   }, [dispatch]);
 
+  const flashSaleProducts=products.filter(product => product.is_flash_sale).slice(0,5)
   return (
     <>
       <div className="row">
@@ -26,7 +27,7 @@ const HomePage = () => {
           <CategoryList categories={categories} />
         </div>
         <div className="col-md-9">
-          <FlashSaleProducts products={products} />
+          <FlashSaleProducts products={flashSaleProducts} />
         </div>
       </div>
       <div className="row">
