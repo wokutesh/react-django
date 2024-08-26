@@ -1,18 +1,18 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
+import '../styles.css';
 const CategoryProducts = ({ category, products }) => {
   const categoryProducts = products.filter(
     (product) => product.category.id === category.id
   );
 
   return (
-    <>
+    <div className="category-product">
       <h3>{category.name}</h3>
       <div
         id={`category-${category.id}`}
         className="carousel slide"
-        data-ride="carousel"
+        data-bs-ride="carousel"
       >
         <div className="carousel-inner">
           {categoryProducts.map((product, index) => (
@@ -21,7 +21,7 @@ const CategoryProducts = ({ category, products }) => {
               className={`carousel-item ${index === 0 ? "active" : ""}`}
             >
               <div className="card">
-                <img src={product.image} alt={product.name} />
+                <img src={product.image} alt={product.name} className="card-img-top"/>
                 <div className="card-body">
                   <h5 className="card-title">{product.name}</h5>
                   <p className="card-text">{product.description}</p>
@@ -36,26 +36,26 @@ const CategoryProducts = ({ category, products }) => {
           ))}
         </div>
 
-        <a
+        <button
           className="carousel-control-prev"
-          href={`#category-${category.id}`}
-          role="button"
-          data-slide="prev"
+          type="button"
+          data-bs-target={`#category-${category.id}`}
+          data-bs-slide="prev"
         >
           <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span className="sr-only">Previous</span>
-        </a>
-        <a
+          <span className="visually-hidden">Previous</span>
+        </button>
+        <button
           className="carousel-control-next"
-          href={`#category-${category.id}`}
-          role="button"
-          data-slide="next"
+          type="button"
+          data-bs-target={`#category-${category.id}`}
+          data-bs-slide="next"
         >
           <span className="carousel-control-next-icon" aria-hidden="true"></span>
-          <span className="sr-only">Next</span>
-        </a>
+          <span className="visually-hidden">Next</span>
+        </button>
       </div>
-    </>
+    </div>
   );
 };
 
