@@ -27,6 +27,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# settings.py
+
+ROOT_URLCONF = 'backend.urls'  # Make sure this line exists in your settings file
 
 # Application definition
 
@@ -44,17 +47,15 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    
+    "corsheaders.middleware.CorsMiddleware",  # Move this above other middlewares
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    'corsheaders.middleware.CorsMiddleware',
 ]
 
-ROOT_URLCONF = "backend.urls"
 
 TEMPLATES = [
     {
@@ -89,7 +90,7 @@ CORS_ALLOW_HEADERS = [
 ]
 
 WSGI_APPLICATION = "backend.wsgi.application"
-
+CORS_ALLOW_CREDENTIALS = True
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
