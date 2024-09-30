@@ -1,10 +1,20 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import '../styles.css';
+
 const CategoryProducts = ({ category, products }) => {
+  console.log("Category ID:", category.id);
+  console.log("Products:", products);
   const categoryProducts = products.filter(
-    (product) => product.category.id === category.id
+    
+    (product) =>{console.log("Product Category ID:", product.category.id);
+      return  product.category.id === category.id
+    }
   );
+  console.log("Category ID:", category.id);
+
+  
+
 
   return (
     <div className="category-product">
@@ -18,42 +28,30 @@ const CategoryProducts = ({ category, products }) => {
           {categoryProducts.map((product, index) => (
             <div
               key={product.id}
-              className={`carousel-item ${index === 0 ? "active" : ""}`}
+              className={`carousel-item ${index === 0 ? "active" : ""}`} // Fix: Use carousel-item class and active class for the first product
             >
-              <div className="card">
-                <img src={product.image} alt={product.name} className="card-img-top"/>
-                <div className="card-body">
-                  <h5 className="card-title">{product.name}</h5>
-                  <p className="card-text">{product.description}</p>
-                  <p className="card-text">Price: ${product.price}</p>
-                  <p className="card-text">Stock: {product.stock}</p>
-                  <Link to={`products/${product.slug}`} className="btn btn-primary">
-                    View Details
-                  </Link>
+              <div className="col-md-3 mb-4">
+                <div className="card">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="card-img-top" // Fix: No duplicate className
+                  />
+                  <div className="card-body">
+                    <h5 className="card-title">{product.name}</h5>
+                    <p className="card-text">{product.description}</p>
+                    <p className="card-text">Price: ${product.price}</p>
+                    <p className="card-text">Stock: {product.stock}</p>
+                    <Link to={`product/${product.slug}`} className="btn btn-primary">
+                      View Details
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
           ))}
         </div>
 
-        <button
-          className="carousel-control-prev"
-          type="button"
-          data-bs-target={`#category-${category.id}`}
-          data-bs-slide="prev"
-        >
-          <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span className="visually-hidden">Previous</span>
-        </button>
-        <button
-          className="carousel-control-next"
-          type="button"
-          data-bs-target={`#category-${category.id}`}
-          data-bs-slide="next"
-        >
-          <span className="carousel-control-next-icon" aria-hidden="true"></span>
-          <span className="visually-hidden">Next</span>
-        </button>
       </div>
     </div>
   );

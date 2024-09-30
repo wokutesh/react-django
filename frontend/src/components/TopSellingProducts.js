@@ -11,14 +11,24 @@ const TopSellingProducts = ({ products }) => {
       <h3>Top Selling Products</h3>
       <div className="row">
         {topSellingProducts.map((product) => (
-          <div key={product.id} className="col-md-4">
+          <div key={product.id} className=" col-md-3 mb-4">
+          <div className="card">
             <Link to={`/products/${product.slug}`}>
               <img src={product.image} 
               alt={product.name} 
-              style={{ width: "150px", height: "150px", objectFit: "cover" }} />
+              className="card-img-top"
+
+              />
+              </Link>
+
+              <div className="card-body">
               <h4>{product.name}</h4>
+              <h4>${product.description}</h4>
               <h4>${product.price}</h4>
-            </Link>
+              <Link to={`product/${product.slug}`} className="btn btn-primary">View Details</Link>
+              </div>
+            
+            </div>
           </div>
         ))}
       </div>
