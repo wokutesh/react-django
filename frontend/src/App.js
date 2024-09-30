@@ -1,45 +1,76 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { BrowserRouter as Router } from 'react-router-dom';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import NavDropdown from 'react-bootstrap/NavDropdown';
 import Form from 'react-bootstrap/Form';
-import logo from './images/ecommerce-logo.jpg'; // Ensure path is correct
 import HomePage from './components/HomePage';
+import ProductDetails from './components/ProductDetails';
+import SearchResultsPage from './components/SearchResultsPage';
+
+function SearchBar() {
+  const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate();
+
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const handleSearchSubmit = (event) => {
+    event.preventDefault();
+    if (searchQuery.trim() !== '') {
+      navigate(`/search?q=${searchQuery}`);
+    }
+  };
+
+  return (
+    <Form className="d-flex" role="search" onSubmit={handleSearchSubmit}>
+      <Form.Control
+        type="search"
+        placeholder="Search"
+        className="me-2"
+        aria-label="Search"
+        value={searchQuery}
+        onChange={handleSearchChange}
+      />
+    </Form>
+  );
+}
 
 function App() {
   return (
     <Router>
-      <Navbar expand="lg" className="bg-primary"> {/* Use a Bootstrap class for styling */}
+      <Navbar expand="lg" className="bg-body-tertiary">
         <Container>
-          <Navbar.Brand href="#home">
-            <img
-              src={logo}
-              alt="Logo"
-              width="30"
-              height="30"
-              className="d-inline-block align-top"
-            />
-          </Navbar.Brand>
+          <Navbar.Brand href="/">MyShopping</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link href="#home">Home</Nav.Link>
-              <Nav.Link href="#link">Contact</Nav.Link>
+              <Nav.Link href="/">Home</Nav.Link>
+              <Nav.Link href="/">About</Nav.Link>
+              <NavDropdown title="Category" id="basic-nav-dropdown">
+                <NavDropdown.Item href="/">Foodstuff</NavDropdown.Item>
+                <NavDropdown.Item href="/">Fruits</NavDropdown.Item>
+                <NavDropdown.Item href="/">Fashion</NavDropdown.Item>
+                <NavDropdown.Item href="/">Electronics</NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item href="/">My account</NavDropdown.Item>
+              </NavDropdown>
             </Nav>
+            <SearchBar /> {/* Move the search logic into this SearchBar component */}
           </Navbar.Collapse>
-          <Form className='d-flex'>
-            <Form.Control
-              type="text"
-              className="form-control form-control-sm"
-              placeholder="Search"
-              aria-label="Search"
-            />
-          </Form>
-         
         </Container>
       </Navbar>
-      <HomePage />
+
+      <Container>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="products/:slug" element={<ProductDetails />} />
+          <Route path="/search" element={<SearchResultsPage />} />
+        </Routes>
+      </Container>
     </Router>
   );
 }
