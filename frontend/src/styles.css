@@ -1,8 +1,13 @@
-.category-product{
-    background-color:aqua;
-}
 
  img{
     width:200px;
-    object-fit:cover;
+    height:250px;
+    object-fit:contain;
+}
+.flash-sale-slider img{
+    width:500px;
+    height:300px;
+    object-fit:contain;
+    
+
 }
