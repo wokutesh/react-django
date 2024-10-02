@@ -11,7 +11,9 @@ const ProductDetails = ({ product, products }) => {
     return (
         <div className="product-details">
             <div className="product-image">
-                <img src={product.image} alt={product.name} />
+                <Link to={`products/${product.slug}`}>
+                  <img src={product.image} alt={product.name} />
+                </Link>
             </div>
             <div className="product-info">
                 <h2>{product.name}</h2>
@@ -20,6 +22,7 @@ const ProductDetails = ({ product, products }) => {
                 {/* <button onClick={handleAddToCart}>Add to Cart</button>
                 <button onClick={handleRemoveFromCart}>Remove from Cart</button> */}
             </div>
+            
 
             <div className="vendor-info">
                 <h3>Vendor Information</h3>
@@ -43,6 +46,21 @@ const ProductDetails = ({ product, products }) => {
                     </div>
                 ))}
             </div>
+            <div className='related-products'>
+    <h3>Related Products</h3>
+    <div className='row'>
+        {relatedProducts.map(relatedProduct => (
+            <div key={relatedProduct.id} className='col-md-3'>
+                <Link to={`products/${relatedProduct.slug}`}>
+                    <img src={relatedProduct.image} alt={relatedProduct.name} />
+                    <h4>{relatedProduct.name}</h4>
+                    <h4>{relatedProduct.price}</h4>
+                </Link>
+            </div>
+        ))}
+    </div>
+</div>
+
         </div>
     );
 }

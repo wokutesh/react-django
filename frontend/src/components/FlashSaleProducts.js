@@ -15,7 +15,7 @@ const FlashSaleProducts = ({ products }) => {
 
   const handleClick = () => {
     const product = products[currentIndex];
-    navigate(`/products/${product.id}`);
+    navigate(`/products/${product.slug}`);
   };
 
   return (
