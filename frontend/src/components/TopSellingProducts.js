@@ -13,7 +13,7 @@ const TopSellingProducts = ({ products }) => {
         {topSellingProducts.map((product) => (
           <div key={product.id} className=" col-md-3 mb-4">
           <div className="card">
-            <Link to={`/products/${product.slug}`}>
+            <Link to={`/product/${product.slug}`}>
               <img src={product.image} 
               alt={product.name} 
               className="card-img-top"
