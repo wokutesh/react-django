@@ -1,4 +1,5 @@
 from rest_framework import viewsets
+from rest_framework import generics
 from .models import (
      User,Vendor,Product, Category,Order,OrderItem,Cart,CartItem,
     Shipping,Payment,Coupon,Review,Wishlist,Notification,Blog,
@@ -14,6 +15,12 @@ from.serializers import (
     SubscriptionSerializer,RefundSerializer
 )
 
+class ProductListByCategory(generics.ListAPIView):
+    serializer_class = ProductSerializer
+
+    def get_queryset(self):
+        slug = self.request.query_params.get('category')
+        return Product.objects.filter(category__slug=slug)
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset= User.objects.all()

@@ -24,7 +24,7 @@ class CategorySerializer(serializers.ModelSerializer):
         fields= '__all__'
 
 class ProductSerializer(serializers.ModelSerializer):
-    category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all())
+    category = CategorySerializer() 
     vendor = serializers.PrimaryKeyRelatedField(queryset=Vendor.objects.all())
     review=serializers.StringRelatedField(many=True,read_only=True)
 
