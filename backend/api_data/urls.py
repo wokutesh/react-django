@@ -6,7 +6,7 @@ from  .views import(
     ShippingViewSet,PaymentViewSet,CouponViewSet,ReviewViewSet,
     WishlistViewSet,BlogViewSet,ContactViewSet,NotificationViewSet,
     FAQViewSet,AnalyticsViewSet, ConfigurationViewSet,TaxViewSet,
-    SubscriptionViewSet,RefundViewSet
+    SubscriptionViewSet,RefundViewSet,ProductDetailView,ProductListByCategory
 )
 
 router=routers.DefaultRouter()
@@ -37,5 +37,7 @@ router.register(r'subscriptions',SubscriptionViewSet)
 urlpatterns=[
 
     path('api/',include(router.urls)),
-
+    path('api/products/<slug:slug>/', ProductDetailView.as_view(), name='product-detail'),
+    path('api/products/', ProductListByCategory.as_view(), name='product-list-by-category'),
+    
 ]

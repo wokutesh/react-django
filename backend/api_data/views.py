@@ -1,5 +1,6 @@
 from rest_framework import viewsets
 from rest_framework import generics
+from rest_framework.generics import RetrieveAPIView
 from .models import (
      User,Vendor,Product, Category,Order,OrderItem,Cart,CartItem,
     Shipping,Payment,Coupon,Review,Wishlist,Notification,Blog,
@@ -15,6 +16,10 @@ from.serializers import (
     SubscriptionSerializer,RefundSerializer
 )
 
+class ProductDetailView(RetrieveAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    lookup_field = 'slug'
 class ProductListByCategory(generics.ListAPIView):
     serializer_class = ProductSerializer
 
