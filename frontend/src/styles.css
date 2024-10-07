@@ -1,5 +1,14 @@
 
- img{
+a{
+    text-decoration: none;
+    color:blue;
+    
+}
+li{
+    list-style-type: none;
+}
+
+img{
     width:200px;
     height:250px;
     object-fit:contain;
@@ -9,5 +18,16 @@
     height:300px;
     object-fit:contain;
     
+
+}
+.home-page{
+    margin:4%;
+}
+
+footer{
+    padding:3%;
+    text-align:center;
+    color:white;
+    font-size:20px;
 
 }
