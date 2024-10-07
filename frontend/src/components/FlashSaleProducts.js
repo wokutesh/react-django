@@ -25,7 +25,7 @@ const FlashSaleProducts = ({ products }) => {
             key={products[currentIndex].id}
             src={products[currentIndex].image}
             alt={products[currentIndex].name}
-            style={{ width: "150px", height: "150px", objectFit: "cover" }} 
+           className="my_img"
             
             />
         )}

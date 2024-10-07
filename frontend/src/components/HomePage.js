@@ -6,7 +6,7 @@ import CategoryList from '../components/CategoryList';
 import FlashSaleProducts from '../components/FlashSaleProducts';
 import TopSellingProducts from '../components/TopSellingProducts';
 import CategoryProducts from '../components/CategoryProducts';
-
+import '../styles.css';
 const HomePage = () => {
   const dispatch = useDispatch();
   
@@ -25,7 +25,7 @@ const HomePage = () => {
 
   
   return (
-    <>
+    <div className='home-page'>
       <div className="row">
         <div className="col-md-3">
           {categories.length > 0 && <CategoryList categories={categories} />}
@@ -42,7 +42,7 @@ const HomePage = () => {
           <CategoryProducts category={category} products={products} />
         </div>
       ))}
-    </>
+    </div>
   );
 };
 
