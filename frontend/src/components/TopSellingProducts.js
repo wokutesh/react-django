@@ -16,7 +16,7 @@ const TopSellingProducts = ({ products }) => {
             <Link to={`/product/${product.slug}`}>
               <img src={product.image} 
               alt={product.name} 
-              className="card-img-top"
+              className="my_img"
 
               />
               </Link>
