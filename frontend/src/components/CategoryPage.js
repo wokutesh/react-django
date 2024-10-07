@@ -14,12 +14,11 @@ const CategoryPage = () => {
     
                 if (response.status === 200) {
                     const data = response.data;
-                    console.log('API Response:', data);  // Log the entire response
+                    
     
                     // Log each product to see how the category field is structured
                     data.forEach(product => {
-                        console.log('Product:', product);
-                        console.log('Category:', product.category); // Log the category field
+                       
                     });
     
                     // Process the data (this part may need adjustment depending on the response structure)
@@ -44,8 +43,7 @@ const CategoryPage = () => {
             } catch (error) {
                 console.error("Error fetching category and products:", error);
                 if (error.response) {
-                    console.error("Error response data:", error.response.data);
-                    console.error("Error response status:", error.response.status);
+                 
                 }
             }
         };
@@ -66,7 +64,7 @@ const CategoryPage = () => {
                 {products.map((product) => (
                     <div key={product.id} className="col-md-3 mb-4">
                         <div className="card">
-                            <img src={product.image} className="card-img-top" alt={product.name} />
+                            <img src={product.image} className="my_img" alt={product.name} />
                             <div className="card-body">
                                 <h5 className="card-title">{product.name}</h5>
                                 <p className="card-text">{product.description}</p>
