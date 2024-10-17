@@ -1,18 +1,92 @@
 from django.db import models
-from django.utils.text import slugify
+from django.utils import timezone
+from django.contrib.sites.shortcuts import get_current_site
+from django.core.mail import send_mail
+from django.utils.http import urlsafe_base64_encode
+from django.core.mail import EmailMessage
+from django.utils.encoding import force_bytes
+from .token import account_activation_token
+from django.contrib.auth.models import BaseUserManager,AbstractBaseUser,Permission,PermissionsMixin,Group
 
-class User(models.Model):
+class CustomUserManager(BaseUserManager):
+    def create_user(self, email, name, password=None, **extra_fields):
+        if not email:
+            raise ValueError('The Email field must be set')
+        if not name:
+            raise ValueError('The Name field must be set')
+        
+        email = self.normalize_email(email)
+        user = self.model(email=email, name=name, **extra_fields)  # Ensure 'name' is passed
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+
+    def create_superuser(self,email,name,password):
+        user =self.create_user(
+            email=self.normalize_email(email),
+            name=name,
+            password=password,
+
+        )
+
+        user.is_admin=True
+        user.is_staff=True
+        user.is_superuser=True
+        user.is_active = True
+        user.save(using=self._db)
+        return user
+
+class User(AbstractBaseUser,PermissionsMixin):
     name= models.CharField(max_length=100,blank=False,null=False)
     email=models.EmailField(unique=True,blank=True)
-    password=models.CharField(max_length=8)
     is_vendor=models.BooleanField(default=False)
     is_admin=models.BooleanField(default=False)
+    is_staff=models.BooleanField(default=False)
+    is_active=models.BooleanField(default=False)
+    date_joined=models.DateTimeField(default=timezone.now)
 
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.name)
-        super().save(*args, **kwargs)
 
+    USERNAME_FIELD='email'
+    REQUIRED_FIELDS=['name']
+    
+    objects = CustomUserManager()
+    
+
+
+    groups = models.ManyToManyField(
+        Group,
+        related_name='core_user_set',
+        blank=True,
+        help_text='the group belongs to this user. A user will get all permissions drantent to each of thier groups',
+        verbose_name='group',
+    )
+    
+    user_permissions = models.ManyToManyField(
+        Permission,
+        related_name='core_user_permission',
+        blank=True,
+        help_text='Specific permission for this user',
+        verbose_name='user permission'
+    )
+    
+    def send_activation_email(self, request):
+        uid = urlsafe_base64_encode(force_bytes(self.pk))
+        token = account_activation_token.make_token(self)
+
+        activation_link = f'{request.scheme}://{request.get_host()}/api/activate/{uid}/{token}/'
+
+        mail_subject = 'Activate your account'
+        message = f'Hi {self.name},\n\nPlease click the link below to activate your account:\n{activation_link}\n\nThank you!'
+        send_mail(mail_subject, message, 'wokumateshome13@gmail.com', [self.email])
+    def __str__(self):
+        return self.email
+
+    def email_user(self,subject,message,from_email =None,**kwargs):
+        email =EmailMessage(subject,message,from_email,[self.email],**kwargs)
+        email.send()
+
+   
 class Vendor(models.Model):
     user=models.OneToOneField(User, on_delete=models.CASCADE,related_name='vendor')
     bio=models.TextField()
@@ -52,7 +126,7 @@ class Product(models.Model):
 class Order(models.Model):
     customer=models.ForeignKey(User,on_delete=models.CASCADE,related_name='orders')
     products=models.ManyToManyField(Product,through='OrderItem')
-    total_price=models.DecimalField(max_digits=100,decimal_places=2)
+    total_price=models.DecimalField(max_digits=10,decimal_places=2)
     shipping_address=models.TextField()
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now=True)
@@ -163,7 +237,8 @@ class Refund(models.Model):
 
 
     def __str__(self):
-        return self.order
+         return f"Refund for Order {self.author.id}"
+         
 
 
 
