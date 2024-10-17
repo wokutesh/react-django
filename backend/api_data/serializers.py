@@ -12,6 +12,11 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model= User
         fields= '__all__'
+        extra_kwargs = {'password':{'write_only':True}}
+    
+    def create(self,validated_data):
+        user = User.objects.create_user(**validated_data)
+        return user
     
 class VendorSerializer(serializers.ModelSerializer):
     class Meta:
@@ -24,13 +29,39 @@ class CategorySerializer(serializers.ModelSerializer):
         fields= '__all__'
 
 class ProductSerializer(serializers.ModelSerializer):
-    category = CategorySerializer() 
+    category = CategorySerializer()  # You want to handle the nested data
     vendor = serializers.PrimaryKeyRelatedField(queryset=Vendor.objects.all())
-    review=serializers.StringRelatedField(many=True,read_only=True)
+    review = serializers.StringRelatedField(many=True, read_only=True)
 
     class Meta:
-        model= Product
-        fields= '__all__'
+        model = Product
+        fields = '__all__'
+
+    def create(self, validated_data):
+       
+        category_data = validated_data.pop('category')
+        
+        
+        category = Category.objects.create(**category_data)
+        
+       
+        product = Product.objects.create(category=category, **validated_data)
+        
+        return product
+
+    def update(self, instance, validated_data):
+       
+        category_data = validated_data.pop('category')
+        
+       
+        Category.objects.filter(pk=instance.category.pk).update(**category_data)
+        
+        
+        instance.vendor = validated_data.get('vendor', instance.vendor)
+        instance.save()
+        
+        return instance
+
 
 class OrderSerializer(serializers.ModelSerializer):
     customer = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
