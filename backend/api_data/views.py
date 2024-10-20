@@ -136,8 +136,10 @@ class ProductListByCategory(generics.ListAPIView):
     serializer_class = ProductSerializer
 
     def get_queryset(self):
-        slug = self.request.query_params.get('category')
-        return Product.objects.filter(category__slug=slug)
+        slug = self.request.query_params.get('slug', None)
+        if slug:
+            return Product.objects.filter(slug=slug)
+        return Product.objects.all()
 @method_decorator(csrf_exempt, name='dispatch')
 class PasswordResetRequestView(View):
     permission_classes = [AllowAny]
